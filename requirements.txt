@@ -1,0 +1,5 @@
+transformers>=4.44.0
+tokenizers>=0.20.3
+accelerate
+datasets
+gradio
