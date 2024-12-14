@@ -1,5 +1,8 @@
 # Megrez-O
 
+<strong>[中文](./README_zh.md) |
+English</strong>
+
 ## Install
 
 ```shell
@@ -143,7 +146,7 @@ We provide online and local demos powered by Hugging Face Gradio <a href='https:
 
 ### Online Demo
 
-{{TBD}}
+Please try out our online Demo here: {{TBD}}
 
 ### Local WebUI Demo
   
