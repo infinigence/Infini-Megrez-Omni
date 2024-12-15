@@ -1,6 +1,6 @@
-# Megrez-3B-Omni: 软硬协同释放无穹端侧智能
+div align="center">
 
-<div align="center">
+# Megrez-3B-Omni: 软硬协同释放无穹端侧智能
 
 <p align="center">
     <img src="assets/megrez_logo.png" width="400"/>
