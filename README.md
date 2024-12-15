@@ -330,6 +330,6 @@ Feel free to modify the `gradio_app.py` to customize the input and output interf
 - **System Prompt**: Similar to most models, we recommend using the default system prompt in the `chat_template` configuration file for a stable and balanced experience. In this release, role-playing and domain-specific application capabilities have been de-emphasized. If users require specific domain applications, we suggest fine-tuning the model accordingly.  
 - **Values and Safety**: While we have made every effort to ensure compliance of the data used during training, the large volume and complexity of the data may still lead to unforeseen issues. We disclaim any liability for problems arising from the use of this open-source model, including but not limited to data security issues, public opinion risks, or risks and problems caused by misleading, misuse, propagation, or improper utilization of the model.  
 
-## 联系我们
+## Contact Us
 
 ![wechat](assets/wechat.jpg)
