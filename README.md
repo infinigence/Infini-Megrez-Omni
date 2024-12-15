@@ -37,7 +37,7 @@
   </thead>
   <tbody>
     <tr>
-      <td>架构</td>
+      <td>Architecture</td>
       <td>Llama-2 with GQA</td>
       <td>siglip-so400m</td>
       <td>Whisper-large-v3
