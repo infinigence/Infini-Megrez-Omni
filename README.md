@@ -14,18 +14,15 @@
 </div>
 
 ## Introduction
-
-**Megrez-3B-Omni** is an edge-side multimodal understanding model developed by **Infinigence AI** ([Infinigence AI](https://cloud.infini-ai.com/platform/ai)). It is an extension of the Megrez-3B-Instruct model and supports comprehensive understanding and analysis of image, text, and audio modalities. The model achieves state-of-the-art accuracy in all three domains:
-
-- Image Understanding: By utilizing SigLip-400M for constructing image tokens, Megrez-3B-Omni outperforms models with more parameters such as LLaVA-NeXT-Yi-34B, in overall performance. It is one of the highest-accuracy image understanding models across multiple mainstream benchmarks, including MME, MMVet, OCRBench, and MMMU. It demonstrates excellent performance in tasks such as scene understanding and OCR.
-
-- Language Understanding: Megrez-3B-Omni retains exceptional text understanding capabilities without significant trade-offs. Compared to its single-modal counterpart (Megrez-3B-Instruct), its overall accuracy variation is less than 2%, maintaining state-of-the-art performance on benchmarks like C-EVAL, MMLU (Pro), and AlignBench. It continues to outperform previous-generation models with 14B parameters.
-
-- Speech Understanding: Equipped with the encoder head of Whisper-large-v3 (~600M parameters), the model supports both Chinese and English speech input, multi-turn conversations, and voice-based questions about input images. It can directly respond to voice commands with text and has achieved leading results across multiple benchmark tasks.
+**Megrez-3B-Omni** is an on-device multimodal understanding LLM model developed by **Infinigence AI** ([Infinigence AI](https://cloud.infini-ai.com/platform/ai)). It is an extension of the Megrez-3B-Instruct model and supports analysis of image, text, and audio modalities. The model achieves state-of-the-art accuracy in all three domains:
+- Image Understanding: By utilizing SigLip-400M for constructing image tokens, Megrez-3B-Omni outperforms models with more parameters such as LLaVA-NeXT-Yi-34B. It is one of the best image understanding models among multiple mainstream benchmarks, including MME, MMMU, and OCRBench. It demonstrates excellent performance in tasks such as scene understanding and OCR.
+- Language Understanding: Megrez-3B-Omni retains text understanding capabilities without significant trade-offs. Compared to its single-modal counterpart (Megrez-3B-Instruct), the accuracy variation is less than 2%, maintaining state-of-the-art performance on benchmarks like C-EVAL, MMLU/MMLU Pro, and AlignBench. It also outperforms previous-generation models with 14B parameters.
+- Speech Understanding: Equipped with the encoder head of Whisper-large-v3, the model supports both Chinese and English speech input, multi-turn conversations, and voice-based questions about input images. It can directly respond to voice commands with text and achieved leading results across multiple benchmarks.
 
 ## Evaluation
 
-The left image compares **Megrez-3B-Omni** with other open-source models across various image understanding tasks. The right image showcases **Megrez-3B-Omni**'s performance on the OpenCompass benchmark. For reference, see the [InternVL 2.5 Blog Post](https://internvl.github.io/blog/2024-12-05-InternVL-2.5/).  
+- The left image compares the performance of Megrez-3B-Omni with other open-source models on mainstream image multimodal tasks.
+- The right image shows the performance of Megrez-3B-Omni on the OpenCompass test set. Image reference: [InternVL 2.5 Blog Post](https://internvl.github.io/blog/2024-12-05-InternVL-2.5/).  
 
 You can find detailed accuracy metrics on the [Megrez-3B-Omni-HF](https://huggingface.co/Infinigence/Megrez-3B-Omni) page.  
 
@@ -43,9 +40,8 @@ You can find detailed accuracy metrics on the [Megrez-3B-Omni-HF](https://huggin
 | MiniCPM-V-2_6  |      448     |       2167.09      |       452.51      |
 
 Setup:  
-
-- The testing environment utilizes an NVIDIA H100 GPU with VLLM. Each test includes 128 text tokens and a 720×1480 image as input, producing 128 output tokens, with `num_seqs` fixed at 8.  
-- Under this setup, the decoding speed of **Qwen2-VL-2B** is slower than **Megrez-3B-Omni**, despite having a smaller base LLM. This is due to the larger number of image tokens generated when encoding images of the specified size, which impacts actual inference speed.  
+- The testing environment utilizes an NVIDIA H100 GPU with vLLM. Each test includes 128 text tokens and a 720×1480 image as input, producing 128 output tokens, with `num_seqs` fixed at 8.  
+- Under this setup, the decoding speed of Qwen2-VL-2B is slower than Megrez-3B-Omni, despite having a smaller base LLM. This is due to the larger number of image tokens generated when encoding images of the specified size, which impacts actual inference speed.  
 
 ## Model Demo
 
@@ -265,16 +261,16 @@ You can customize the modules to fine-tune by setting the parameters:
 2. **If GPU memory is insufficient**:  
    - Adjust the `model_max_length` and `per_device_train_batch_size` parameters.  
    - Disable specific modules for fine-tuning to reduce memory usage.  
-   - Optimize memory consumption by configuring the `zero_optimization` parameters in DeepSpeed.  
+   - Optimize memory consumption by configuring the `zero_optimization` parameters in DeepSpeed.
+3. **For better inference results**:
+   - We recommend to put the images in the first round of chat for better inference results. There are no such restrictions for audio and text, which can be switched freely.
+   - In the Automatic Speech Recognition (ASR) scenario, simply change content['text'] to "Convert speech to text."
+   - In the OCR scenario, enabling sampling may introduce language model hallucinations which cause text changes. Users may consider disabling sampling in inference (sampling=False). However, disabling sampling may introduce model repetition.
+ 
 
 ## Open Source License and Usage Statement
 
 - **License**: The code in this repository is open-sourced under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) license.  
-- **Hallucination**: Large models inherently suffer from hallucination issues. Users are advised not to fully trust the content generated by the model. For more factual outputs, we recommend utilizing our WebSearch functionality, as detailed [here](xxxx).  
-- **Mathematics & Reasoning**: Smaller models are more prone to errors in mathematical calculations and reasoning chains, leading to incorrect final results. Notably, the softmax distribution of smaller models is less sharp compared to larger models, making them more likely to produce inconsistent results under higher temperature settings, especially for deterministic tasks like mathematics or reasoning. We recommend lowering the temperature or performing multiple inference runs for verification in such cases.  
-- **System Prompt**: Similar to most models, we recommend using the default system prompt in the `chat_template` configuration file for a stable and balanced experience. In this release, role-playing and domain-specific application capabilities have been de-emphasized. If users require specific domain applications, we suggest fine-tuning the model accordingly.  
+- **Hallucination**: Large models inherently have hallucination issues. Users should not completely trust the content generated by the model. 
 - **Values and Safety**: While we have made every effort to ensure compliance of the data used during training, the large volume and complexity of the data may still lead to unforeseen issues. We disclaim any liability for problems arising from the use of this open-source model, including but not limited to data security issues, public opinion risks, or risks and problems caused by misleading, misuse, propagation, or improper utilization of the model.  
 
-## Contact Us
-
-![wechat](assets/wechat.jpg)
