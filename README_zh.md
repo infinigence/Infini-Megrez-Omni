@@ -26,7 +26,7 @@
 左图为Megrez-3B-Omni与其他开源模型在图片理解各任务的能力比较；  
 右图为Megrez-3B-Omni在opencompass测试集上表现，图片参考 [InternVL 2.5 Blog Post](https://internvl.github.io/blog/2024-12-05-InternVL-2.5/)*
 
- <div style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between;">
   <img src="assets/multitask.jpg" alt="Image 1" style="width: 45%;">
   <img src="assets/opencompass.jpg" alt="Image 2" style="width: 45%;">
 </div>
@@ -194,11 +194,13 @@ for output in outputs:
 
 ### WeiUI 演示
 
-【screenshot】
+<div align="center" style="display: flex; justify-content: space-between;">
+  <img src="assets/gradio_demo.jpg" style="width: 80%;">
+</div>
 
 ### 在线 Demo
 
-欢迎试用在线 Demo: {{TBD}}。
+欢迎试用在线 Demo: [🤗Megrez-3B-Omni](https://huggingface.co/spaces/Infinigence/Megrez-3B-Omni)。
 
 ### 本地 Demo
   

@@ -194,11 +194,13 @@ We provide online and local demos powered by Hugging Face Gradio <a href='https:
 
 ### WebUI Demonstration
 
-【screenshot】
+<div align="center" style="display: flex; justify-content: space-between;">
+  <img src="assets/gradio_demo.jpg" style="width: 80%;">
+</div>
 
 ### Online Demo
 
-Please try out our online Demo here: {{TBD}}
+Please try out our online Demo here: [🤗Megrez-3B-Omni](https://huggingface.co/spaces/Infinigence/Megrez-3B-Omni)
 
 ### Local WebUI Demo
   
