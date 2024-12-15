@@ -1,5 +1,6 @@
 # Megrez-3B-Omni: 软硬协同释放无穹端侧智能
 
+<div align="center">
 
 <p align="center">
     <img src="assets/megrez_logo.png" width="400"/>
@@ -8,9 +9,10 @@
         🔗 <a href="https://github.com/infinigence/Infini-Megrez-Omni">GitHub</a>&nbsp&nbsp | &nbsp&nbsp🏠 <a href="https://cloud.infini-ai.com/genstudio/model/mo-c73owqiotql7lozr">Infini-AI mass</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="https://cloud.infini-ai.com/assets/png/wechat_official_account.1f7e61401727063822266.png">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="https://cloud.infini-ai.com/assets/png/wechat_community.7dbbc0b51727063822266.png">WeChat Groups</a>&nbsp&nbsp
 </p>
 
-<strong>[中文](./README_zh.md) |
-English</strong>
+  <strong>[中文](./README_zh.md) |
+  English</strong>
 
+</div>
 
 ## Introduction
 
