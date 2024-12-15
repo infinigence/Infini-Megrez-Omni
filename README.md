@@ -166,11 +166,11 @@ We provide a [fine-tuning example](./finetune/) based on [DeepSpeed](https://git
 
 ### Data Preparation
 
-We have constructed a sample dataset based on [ALLaVA-4V/allava_laion](https://huggingface.co/datasets/FreedomIntelligence/ALLaVA-4V/tree/main/allava_laion):  
+We have constructed a sample dataset based on [ALLaVA-4V/allava_laion](https://huggingface.co/datasets/FreedomIntelligence/ALLaVA-4V/tree/main/allava_laion) dataset:  
 
-- Dialogue: [data/train/records.jsonl](./data/train/records.jsonl)  
-- Images: [data/train/images](./data/train/images)  
-- Audio: [data/train/audio](./data/train/audio), created by converting dialogue text into speech using TTS.  
+- **Dialogue**: [data/train/records.jsonl](./data/train/records.jsonl)  
+- **Images**: [data/train/images](./data/train/images)  
+- **Audio**: [data/train/audio](./data/train/audio), created by converting dialogue text into speech using TTS.  
 
 You can also prepare your own dataset following the same format.
 
