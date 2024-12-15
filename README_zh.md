@@ -14,6 +14,8 @@
 
 </div>
 
+链接这里，maas换成modelscope吧，加一个hf demo占位？？？
+
 ## 模型简介
 
 **Megrez-3B-Omni** 是由无问芯穹（[Infinigence AI](https://cloud.infini-ai.com/platform/ai)）研发的端侧全模态理解模型，基于无问大语言模型Megrez-3B-Instruct扩展，同时具备图片、文本、音频三种模态数据的理解分析能力，在三个方面均取得最优精度
@@ -21,6 +23,15 @@
 - 在图像理解方面，基于 SigLip-400M构建图像Token，综合性能超越LLaVA-NeXT-Yi-34B等更大参数规模的模型，是在MME, MMVet, OCRBench, MMMU等多个主流测试集上目前精度最高的图像理解模型之一。在场景理解、OCR等方面具有良好表现。
 - 在语言理解方面，Megrez-3B-Omni并未牺牲模型的文本处理能力，综合能力较单模态版本（Megrez-3B-Instruct）精度变化低于2%，保持在C-EVAL、MMLU (Pro）、AlignBench等多个测试集上的最优精度优势，依然取得超越上一代14B模型的能力表现
 - 在语音理解方面，采用Whisper-large-v3的Encoder头（参数量~600M），支持中英文语音输入及多轮对话，支持对输入图片的语音提问，根据语音指令直接响应文本，在多项基准任务上取得了领先的结果
+
+?????
+放一下雷达图和精度散点图？？？？然后写一句详细精度见hf，下面主要写部署
+
+留一个视频或者gif demo的空位
+
+环境版本那里highlight一下，注明其他版本存在风险，有问题提issue
+
+gradio demo放一个效果图
 
 ## 基础信息
 
