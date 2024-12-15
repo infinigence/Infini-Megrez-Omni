@@ -14,18 +14,14 @@
 </div>
 
 ## 模型简介
-
-**Megrez-3B-Omni** 是由无问芯穹（[Infinigence AI](https://cloud.infini-ai.com/platform/ai)）研发的**端侧全模态**理解模型，基于无问大语言模型Megrez-3B-Instruct扩展，同时具备图片、文本、音频三种模态数据的理解分析能力，在三个方面均取得最优精度
-
-- 在图像理解方面，基于 SigLip-400M 构建图像Token，在 OpenCompass 榜单上（综合8个主流多模态评测基准）平均得分66.2，超越 LLaVA-NeXT-Yi-34B 等更大参数规模的模型。Megrez-3B-Omni也是在MME、MMMU、OCRBench等多个主流测试集上目前精度最高的图像理解模型之一，在场景理解、OCR等方面具有良好表现。
-- 在语言理解方面，Megrez-3B-Omni 并未牺牲模型的文本处理能力，综合能力较单模态版本（Megrez-3B-Instruct）精度变化小于2%，保持在C-EVAL、MMLU (Pro）、AlignBench等多个测试集上的最优精度优势，依然取得超越上一代14B模型的能力表现
+Megrez-3B-Omni是由无问芯穹（[Infinigence AI](https://cloud.infini-ai.com/platform/ai)）研发的**端侧全模态**理解模型，基于无问大语言模型Megrez-3B-Instruct扩展，同时具备图片、文本、音频三种模态数据的理解分析能力，在三个方面均取得最优精度
+- 在图像理解方面，基于SigLip-400M构建图像Token，在OpenCompass榜单上（综合8个主流多模态评测基准）平均得分66.2，超越LLaVA-NeXT-Yi-34B等更大参数规模的模型。Megrez-3B-Omni也是在MME、MMMU、OCRBench等测试集上目前精度最高的图像理解模型之一，在场景理解、OCR等方面具有良好表现。
+- 在语言理解方面，Megrez-3B-Omni并未牺牲模型的文本处理能力，综合能力较单模态版本（Megrez-3B-Instruct）精度变化小于2%，保持在C-EVAL、MMLU/MMLU Pro、AlignBench等多个测试集上的最优精度优势，依然取得超越上一代14B模型的能力表现
 - 在语音理解方面，采用Whisper-large-v3的Encoder作为语音输入，支持中英文语音输入及多轮对话，支持对输入图片的语音提问，根据语音指令直接响应文本，在多项基准任务上取得了领先的结果
 
 ## 评测结果
-
-左图为Megrez-3B-Omni与其他开源模型在图片理解各任务的能力比较；  
-右图为Megrez-3B-Omni在opencompass测试集上表现，图片参考 [InternVL 2.5 Blog Post](https://internvl.github.io/blog/2024-12-05-InternVL-2.5/)*
-
+- 左图为Megrez-3B-Omni与其他开源模型在主流图片多模态任务上的性能比较
+- 右图为Megrez-3B-Omni在OpenCompass测试集上表现，图片引用自： [InternVL 2.5 Blog Post](https://internvl.github.io/blog/2024-12-05-InternVL-2.5/)*
 <div style="display: flex; justify-content: space-between;">
   <img src="assets/multitask.jpg" alt="Image 1" style="width: 45%;">
   <img src="assets/opencompass.jpg" alt="Image 2" style="width: 45%;">
@@ -34,7 +30,6 @@
 详细精度见 [Megrez-3B-Omni-HF](https://huggingface.co/Infinigence/Megrez-3B-Omni)
 
 ### 推理速度
-
 |                | image_tokens | prefill (tokens/s) | decode (tokens/s) |
 |----------------|:------------:|:------------------:|:-----------------:|
 | Megrez-3B-Omni |      448     |       6312.66      |       1294.9      |
@@ -42,16 +37,13 @@
 | MiniCPM-V-2_6  |      448     |       2167.09      |       452.51      |
 
 实验设置：
-
 - 测试环境为NVIDIA H100下VLLM下输入128个Text token和一张 720*1480的图片，输出128个token，num_seqs固定为8。
 - Qwen2-VL-2B的在此实验下的decode速度小于Megrez-3B-Omni，虽然其具备更小的基座LLM，但是编码上述大小图片后的image_token相较Megrez-3B-Omni较多，影响实际推理速度。
 
 ## 模型演示
-
 【GIF】
 
 ## 安装
-
 使用如下命令安装依赖：
 
 ```shell
@@ -63,7 +55,6 @@ pip install -r requirements.txt
 ### 使用多模态数据进行多轮对话
 
 请使用如下脚本进行推理。请将 `PATH_TO_PRETRAINED_MODEL` 替换为下载的模型权重的路径。
-
 ```python
 import torch
 from transformers import AutoModelForCausalLM
@@ -102,7 +93,6 @@ print(response)
 完整的示例见：[example_chat_hf.py](example_chat_hf.py).
 
 ### 使用 vLLM 进行推理
-
 我们提供了一个基于 vLLM 框架的推理参考实现。您可以在 [vllm_demo/megrezo.py](vllm_demo/megrezo.py) 中找到模型定义。
 
 推理步骤如下：
@@ -263,15 +253,13 @@ sh finetune.sh
   - 请尝试调整`model_max_length`和`per_device_train_batch_size`。
   - 请尝试关闭需要微调的模块以便减少显存占用。
   - 请尝试调整deepspeed的`zero_optimization`参数来优化显存使用。
+- 使用时
+  - 请将图片尽量在首轮输入以保证推理效果，语音和文本无此限制，可以自由切换
+  - 语音识别（ASR）场景下，只需要将content['text']修改为“将语音转化为文字。”
+  - OCR场景下开启采样可能会引入语言模型幻觉导致的文字变化，可考虑关闭采样进行推理（sampling=False），但关闭采样可能引入模型复读
 
 ## 开源协议及使用声明
 
-- **协议**：本仓库中代码依照 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) 协议开源
-- **幻觉**：大模型天然存在幻觉问题，用户使用过程中请勿完全相信模型生成的内容。若用户想获取更符合事实的生成内容，推荐利用我们的WebSearch功能，详见 [xxxx]。
-- **数学&推理**：小模型在数学和推理任务上更容易出错误的计算过程或推理链条，从而导致最终结果错误。特别的，小模型的输出softmax分布相比大模型明显不够sharp，在较高temperature下更容易出现多次推理结果不一致的问题，在数学/推理等确定性问题上更为明显。我们推荐在这类问题上，调低temperature，或尝试多次推理验证。
-- **System Prompt**：和绝大多数模型一样，我们推荐使用配置文件中chat_template默认的system prompt，以获得稳定和平衡的体验。本次模型发布弱化了角色扮演等涉及特定领域应用方面的能力，用户若有特定领域的应用需求，我们推荐在本模型基础上按需进行适当微调。
+- **协议**：本仓库中代码依照 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) 协议开源。
+- **幻觉**：大模型天然存在幻觉问题，用户使用过程中请勿完全相信模型生成的内容。
 - **价值观及安全性**：本模型已尽全力确保训练过程中使用的数据的合规性，但由于数据的大体量及复杂性，仍有可能存在一些无法预见的问题。如果出现使用本开源模型而导致的任何问题，包括但不限于数据安全问题、公共舆论风险，或模型被误导、滥用、传播或不当利用所带来的任何风险和问题，我们将不承担任何责任。
-
-## 联系我们
-
-![wechat](assets/wechat.jpg)
