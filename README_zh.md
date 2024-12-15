@@ -6,7 +6,7 @@
     <img src="assets/megrez_logo.png" width="400"/>
 <p>
 <p align="center">
-        🤗 <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Huggingface</a>&nbsp&nbsp | &nbsp&nbsp🤖<a href="https://www.modelscope.cn/models/InfiniAI/Megrez-3B-Omni">Modelscope</a>&nbsp&nbsp | &nbsp&nbsp🖥️ <a href="https://huggingface.co/spaces/Infinigence/Megrez-3B-Omni">Demo</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="assets/wechat-official.jpg">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="assets/wechat-group.jpg">WeChat Groups</a>&nbsp&nbsp
+    🤗 <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Huggingface</a>&nbsp&nbsp | &nbsp&nbsp🤖<a href="https://www.modelscope.cn/models/InfiniAI/Megrez-3B-Omni">Modelscope</a>&nbsp&nbsp | &nbsp&nbsp🖥️ <a href="https://huggingface.co/spaces/Infinigence/Megrez-3B-Omni">Demo</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="assets/wechat-official.jpg">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="assets/wechat-group.jpg">WeChat Groups</a>&nbsp&nbsp
 </p>
 
 <strong>中文 | [English](./README.md)</strong>
@@ -22,6 +22,7 @@
 - 在语音理解方面，采用Whisper-large-v3的Encoder作为语音输入，支持中英文语音输入及多轮对话，支持对输入图片的语音提问，根据语音指令直接响应文本，在多项基准任务上取得了领先的结果
 
 ## 评测结果
+
 左图为Megrez-3B-Omni与其他开源模型在图片理解各任务的能力比较；  
 右图为Megrez-3B-Omni在opencompass测试集上表现，图片参考 [InternVL 2.5 Blog Post](https://internvl.github.io/blog/2024-12-05-InternVL-2.5/)*
 
@@ -32,16 +33,7 @@
 
 详细精度见 [Megrez-3B-Omni-HF](https://huggingface.co/Infinigence/Megrez-3B-Omni)
 
-留一个视频或者gif demo的空位
-
-环境版本那里highlight一下，注明其他版本存在风险，有问题提issue
-
-gradio demo放一个效果图
-
-### 效果图
-
-
-### 速度
+### 推理速度
 
 |                | image_tokens | prefill (tokens/s) | decode (tokens/s) |
 |----------------|:------------:|:------------------:|:-----------------:|
@@ -54,6 +46,10 @@ gradio demo放一个效果图
 - 测试环境为NVIDIA H100下VLLM下输入128个Text token和一张 720*1480的图片，输出128个token，num_seqs固定为8。
 - Qwen2-VL-2B的在此实验下的decode速度小于Megrez-3B-Omni，虽然其具备更小的基座LLM，但是编码上述大小图片后的image_token相较Megrez-3B-Omni较多，影响实际推理速度。
 
+## 模型演示
+
+【GIF】
+
 ## 安装
 
 使用如下命令安装依赖：
@@ -62,47 +58,7 @@ gradio demo放一个效果图
 pip install -r requirements.txt
 ```
 
-## 微调模型
-
-我们提供了一个基于 [DeepSpeed](https://github.com/microsoft/DeepSpeed) 和 [accelerate](https://github.com/huggingface/accelerate) 的[微调示例](./finetune/)。
-
-### 数据准备
-
-我们基于[ALLaVA-4V/allava_laion](https://huggingface.co/datasets/FreedomIntelligence/ALLaVA-4V/tree/main/allava_laion)构造了一个示例数据集：
-
-- **对话**：[data/train/records.jsonl](./data/train/records.jsonl)
-- **图片**：[data/train/images](./data/train/images)
-- **音频**：[data/train/audio](./data/train/audio)，是通过将对话中的文本使用TTS转换为语音得到的。
-
-您也可以按照上述格式准备自己的数据集。
-
-### 依赖安装
-
-```shell
-pip install deepspeed accelerate
-```
-
-### 全参微调
-
-使用如下命令运行我们的微调示例，请注意将脚本中的模型路径替换成您下载的模型路径。
-
-```shell
-cd finetune
-
-sh finetune.sh
-```
-
-您可以通过设置`tune_vision_encoder`、`tune_vision_proj`、`tune_llm`、`tune_audio_encoder`、`tune_audio_proj`来选择需要微调的模块。
-
-### 注意事项
-
-- 推荐使用至少2张拥有80G显存的GPU进行微调。
-- 在显存不足的情况下：
-  - 请尝试调整`model_max_length`和`per_device_train_batch_size`。
-  - 请尝试关闭需要微调的模块以便减少显存占用。
-  - 请尝试调整deepspeed的`zero_optimization`参数来优化显存使用。
-
-## 推理
+## 模型推理
 
 ### 使用多模态数据进行多轮对话
 
@@ -153,11 +109,11 @@ print(response)
 
 1. 安装 vLLM
 
-注意，我们需要安装特定版本的依赖：
-
 ```shell
 pip install vllm==0.6.3.post1 flash_attn==2.5.8 xformers==0.0.27.post2
 ```
+
+**注意**：使用 vLLM 推理需要安装特定版本的依赖，其他版本可能存在接口不一致的风险。有任何问题欢迎[提issue](https://github.com/infinigence/Infini-Megrez-Omni/issues/new)。
 
 2. 运行推理脚本
 
@@ -236,6 +192,10 @@ for output in outputs:
 
 我们提供基于 Hugging Face Gradio <a href='https://github.com/gradio-app/gradio'><img src='https://img.shields.io/github/stars/gradio-app/gradio'></a> 实现的在线和本地 Demo。
 
+### WeiUI 演示
+
+【screenshot】
+
 ### 在线 Demo
 
 欢迎试用在线 Demo: {{TBD}}。
@@ -261,6 +221,46 @@ python gradio_app.py --model_path {model_path} --port {port}
 然后，您可以在浏览器中访问 `http://localhost:7860` 与模型对话。
 
 如需自定义输入和输出接口，请修改 `gradio_app.py`。更多信息请参考 [Gradio 文档](https://gradio.app/docs)。
+
+## 微调模型
+
+我们提供了一个基于 [DeepSpeed](https://github.com/microsoft/DeepSpeed) 和 [accelerate](https://github.com/huggingface/accelerate) 的[微调示例](./finetune/)。
+
+### 数据准备
+
+我们基于[ALLaVA-4V/allava_laion](https://huggingface.co/datasets/FreedomIntelligence/ALLaVA-4V/tree/main/allava_laion)构造了一个示例数据集：
+
+- **对话**：[data/train/records.jsonl](./data/train/records.jsonl)
+- **图片**：[data/train/images](./data/train/images)
+- **音频**：[data/train/audio](./data/train/audio)，是通过将对话中的文本使用TTS转换为语音得到的。
+
+您也可以按照上述格式准备自己的数据集。
+
+### 依赖安装
+
+```shell
+pip install deepspeed accelerate
+```
+
+### 全参微调
+
+使用如下命令运行我们的微调示例，请注意将脚本中的模型路径替换成您下载的模型路径。
+
+```shell
+cd finetune
+
+sh finetune.sh
+```
+
+您可以通过设置`tune_vision_encoder`、`tune_vision_proj`、`tune_llm`、`tune_audio_encoder`、`tune_audio_proj`来选择需要微调的模块。
+
+### 注意事项
+
+- 推荐使用至少2张拥有80G显存的GPU进行微调。
+- 在显存不足的情况下：
+  - 请尝试调整`model_max_length`和`per_device_train_batch_size`。
+  - 请尝试关闭需要微调的模块以便减少显存占用。
+  - 请尝试调整deepspeed的`zero_optimization`参数来优化显存使用。
 
 ## 开源协议及使用声明
 
