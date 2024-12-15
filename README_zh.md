@@ -6,15 +6,12 @@
     <img src="assets/megrez_logo.png" width="400"/>
 <p>
 <p align="center">
-        🔗 <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Huggingface</a>&nbsp&nbsp | &nbsp&nbsp🏠 <a href="https://cloud.infini-ai.com/genstudio/model/mo-c73owqiotql7lozr">Infini-AI mass</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="https://cloud.infini-ai.com/assets/png/wechat_official_account.1f7e61401727063822266.png">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="https://cloud.infini-ai.com/assets/png/wechat_community.7dbbc0b51727063822266.png">WeChat Groups</a>&nbsp&nbsp
+        🤗 <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Huggingface</a>&nbsp&nbsp | &nbsp&nbsp🤖<a href="https://www.modelscope.cn/models/InfiniAI/Megrez-3B-Omni">Modelscope</a>&nbsp&nbsp | &nbsp&nbsp🖥️ <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Demo</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="https://cloud.infini-ai.com/assets/png/wechat_official_account.1f7e61401727063822266.png">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="https://cloud.infini-ai.com/assets/png/wechat_community.7dbbc0b51727063822266.png">WeChat Groups</a>&nbsp&nbsp
 </p>
 
-<strong>中文 |
-[English](./README.md)</strong>
+<strong>中文 | [English](./README.md)</strong>
 
 </div>
-
-链接这里，maas换成modelscope吧，加一个hf demo占位？？？
 
 ## 模型简介
 
@@ -174,7 +171,43 @@ pip install -r requirements.txt
 
 ## 微调模型
 
-{{TBD}}
+我们提供了一个基于 [DeepSpeed](https://github.com/microsoft/DeepSpeed) 和 [accelerate](https://github.com/huggingface/accelerate) 的[微调示例](./finetune/)。
+
+### 数据准备
+
+我们基于[ALLaVA-4V/allava_laion](https://huggingface.co/datasets/FreedomIntelligence/ALLaVA-4V/tree/main/allava_laion)构造了一个示例数据集：
+
+- **对话**：[data/train/records.jsonl](./data/train/records.jsonl)
+- **图片**：[data/train/images](./data/train/images)
+- **音频**：[data/train/audio](./data/train/audio)，是通过将对话中的文本使用TTS转换为语音得到的。
+
+您也可以按照上述格式准备自己的数据集。
+
+### 依赖安装
+
+```shell
+pip install deepspeed accelerate
+```
+
+### 全参微调
+
+使用如下命令运行我们的微调示例，请注意将脚本中的模型路径替换成您下载的模型路径。
+
+```shell
+cd finetune
+
+sh finetune.sh
+```
+
+您可以通过设置`tune_vision_encoder`、`tune_vision_proj`、`tune_llm`、`tune_audio_encoder`、`tune_audio_proj`来选择需要微调的模块。
+
+### 注意事项
+
+- 推荐使用至少2张拥有80G显存的GPU进行微调。
+- 在显存不足的情况下：
+  - 请尝试调整`model_max_length`和`per_device_train_batch_size`。
+  - 请尝试关闭需要微调的模块以便减少显存占用。
+  - 请尝试调整deepspeed的`zero_optimization`参数来优化显存使用。
 
 ## 推理
 
@@ -217,7 +250,7 @@ response = model.chat(
 print(response)
 ```
 
-完整的实例见：[example_chat_hf.py](example_chat_hf.py).
+完整的示例见：[example_chat_hf.py](example_chat_hf.py).
 
 ### 使用 vLLM 进行推理
 
@@ -336,8 +369,8 @@ python gradio_app.py --model_path {model_path} --port {port}
 
 如需自定义输入和输出接口，请修改 `gradio_app.py`。更多信息请参考 [Gradio 文档](https://gradio.app/docs)。
 
-
 ## 开源协议及使用声明
+
 - **协议**：本仓库中代码依照 [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) 协议开源
 - **幻觉**：大模型天然存在幻觉问题，用户使用过程中请勿完全相信模型生成的内容。若用户想获取更符合事实的生成内容，推荐利用我们的WebSearch功能，详见 [xxxx]。
 - **数学&推理**：小模型在数学和推理任务上更容易出错误的计算过程或推理链条，从而导致最终结果错误。特别的，小模型的输出softmax分布相比大模型明显不够sharp，在较高temperature下更容易出现多次推理结果不一致的问题，在数学/推理等确定性问题上更为明显。我们推荐在这类问题上，调低temperature，或尝试多次推理验证。
@@ -345,4 +378,5 @@ python gradio_app.py --model_path {model_path} --port {port}
 - **价值观及安全性**：本模型已尽全力确保训练过程中使用的数据的合规性，但由于数据的大体量及复杂性，仍有可能存在一些无法预见的问题。如果出现使用本开源模型而导致的任何问题，包括但不限于数据安全问题、公共舆论风险，或模型被误导、滥用、传播或不当利用所带来的任何风险和问题，我们将不承担任何责任。
 
 ## 联系我们
+
 ![wechat](assets/wechat.jpg)

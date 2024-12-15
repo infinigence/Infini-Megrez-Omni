@@ -6,11 +6,10 @@
     <img src="assets/megrez_logo.png" width="400"/>
 <p>
 <p align="center">
-        🔗 <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Huggingface</a>&nbsp&nbsp | &nbsp&nbsp🏠 <a href="https://cloud.infini-ai.com/genstudio/model/mo-c73owqiotql7lozr">Infini-AI mass</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="https://cloud.infini-ai.com/assets/png/wechat_official_account.1f7e61401727063822266.png">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="https://cloud.infini-ai.com/assets/png/wechat_community.7dbbc0b51727063822266.png">WeChat Groups</a>&nbsp&nbsp
+        🤗 <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Huggingface</a>&nbsp&nbsp | &nbsp&nbsp🤖<a href="https://www.modelscope.cn/models/InfiniAI/Megrez-3B-Omni">Modelscope</a>&nbsp&nbsp | &nbsp&nbsp🖥️ <a href="https://huggingface.co/Infinigence/Megrez-3B-Omni">Demo</a>&nbsp&nbsp | &nbsp&nbsp📖 <a href="https://cloud.infini-ai.com/assets/png/wechat_official_account.1f7e61401727063822266.png">WeChat Official</a>&nbsp&nbsp | &nbsp&nbsp💬 <a href="https://cloud.infini-ai.com/assets/png/wechat_community.7dbbc0b51727063822266.png">WeChat Groups</a>&nbsp&nbsp
 </p>
 
-  <strong>[中文](./README_zh.md) |
-  English</strong>
+<strong>[中文](./README_zh.md) | English</strong>
 
 </div>
 
@@ -161,9 +160,48 @@ Setup:
 pip install -r requirements.txt
 ```
 
-## Finetune
+## Fine-Tuning the Model
 
-{{TBD}}
+We provide a [fine-tuning example](./finetune/) based on [DeepSpeed](https://github.com/microsoft/DeepSpeed) and [accelerate](https://github.com/huggingface/accelerate).
+
+### Data Preparation
+
+We have constructed a sample dataset based on [ALLaVA-4V/allava_laion](https://huggingface.co/datasets/FreedomIntelligence/ALLaVA-4V/tree/main/allava_laion):  
+
+- Dialogue: [data/train/records.jsonl](./data/train/records.jsonl)  
+- Images: [data/train/images](./data/train/images)  
+- Audio: [data/train/audio](./data/train/audio), created by converting dialogue text into speech using TTS.  
+
+You can also prepare your own dataset following the same format.
+
+### Dependencies Installation
+
+Install the required dependencies with the following command:  
+
+```bash
+pip install deepspeed accelerate
+```
+
+### Full-Parameter Fine-Tuning
+
+To run the fine-tuning example, execute the following commands. Be sure to replace the model path in the script with the path to your downloaded model.  
+
+```bash
+cd finetune
+
+sh finetune.sh
+```
+
+You can customize the modules to fine-tune by setting the parameters:  
+`tune_vision_encoder`, `tune_vision_proj`, `tune_llm`, `tune_audio_encoder`, and `tune_audio_proj`.
+
+### Notes
+
+1. **Recommended Hardware**: Please use at least two GPUs with 80GB memory for fine-tuning.  
+2. **If GPU memory is insufficient**:  
+   - Adjust the `model_max_length` and `per_device_train_batch_size` parameters.  
+   - Disable specific modules for fine-tuning to reduce memory usage.  
+   - Optimize memory consumption by configuring the `zero_optimization` parameters in DeepSpeed.  
 
 ## Inference
 

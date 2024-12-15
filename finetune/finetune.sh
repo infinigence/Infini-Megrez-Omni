@@ -1,11 +1,9 @@
-export CUDA_VISIBLE_DEVICES=1,2,3,4,5,6,7
-
 DATA_PATH=$(pwd)/../data/train/records.jsonl
 DATASET_PREFIX=$(pwd)/../data/train/
 CURRENT_TIME=$(date +%Y%m%d_%H%M%S)
 OUTPUT_DIR=$(pwd)/test_finetune/$CURRENT_TIME
 LOGGING_DIR=$(pwd)/test_finetune_log
-MODEL_PATH=/mnt/public/algm/tanzheyue/workspace/megrezo
+MODEL_PATH=""
 
 torchrun --nproc_per_node=2 finetune.py \
     --data_path $DATA_PATH \
