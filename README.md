@@ -55,6 +55,14 @@ Install runtime dependencies with the following command:
 pip install -r requirements.txt
 ```
 
+The audio-related functionality relies on **FFmpeg** for audio processing. If you are using a Debian or Debian-based system, you can install FFmpeg with the following command:
+
+```bash
+sudo apt-get install ffmpeg
+```
+
+For other operating systems, please refer to the [official FFmpeg documentation](https://ffmpeg.org/download.html) for installation instructions.
+
 ## Inference
 
 ### Conversation with Multimodal Data

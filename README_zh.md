@@ -50,6 +50,15 @@ Megrez-3B-Omni是由无问芯穹（[Infinigence AI](https://cloud.infini-ai.com/
 pip install -r requirements.txt
 ```
 
+音频功能依赖ffmpeg进行音频处理，如果您使用 Debian 相关的系统，可以通过以下命令安装：
+
+```shell
+sudo apt-get install ffmpeg
+```
+
+对于其他的操作系统，请参考 [ffmpeg 官方文档](https://ffmpeg.org/download.html) 进行安装。
+
+
 ## 模型推理
 
 ### 使用多模态数据进行多轮对话
