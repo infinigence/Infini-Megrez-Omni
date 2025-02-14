@@ -404,7 +404,8 @@ class AudioEncoder(nn.Module):
         super().__init__()
         self.conv1 = Conv1d(n_mels, n_state, kernel_size=3, padding=1)
         self.conv2 = Conv1d(n_state, n_state, kernel_size=3, stride=2, padding=1)
-        self.register_buffer("positional_embedding", sinusoids(n_ctx, n_state))
+        # self.register_buffer("positional_embedding", sinusoids(n_ctx, n_state))
+        self.positional_embedding = nn.Parameter(sinusoids(n_ctx, n_state), requires_grad=False)
 
         self.blocks: Iterable[ResidualAttentionBlock] = nn.ModuleList(
             [ResidualAttentionBlock(n_state, n_head) for _ in range(n_layer)]
@@ -791,8 +792,8 @@ class MegrezOModel(nn.Module, VllmModelForTextGeneration, SupportsMultiModal, Su
                 # Models trained using ColossalAI may include these tensors in
                 # the checkpoint. Skip them.
                 continue
-            if "audio.positional_embedding" in name:
-                continue
+            # if "audio.positional_embedding" in name:
+            #     continue
 
             for param_name, weight_name, shard_id in stacked_params_mapping:
                 if weight_name not in name:
